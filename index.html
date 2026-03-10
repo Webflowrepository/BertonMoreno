@@ -5,10 +5,13 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Berton Moreno | IP LAW</title>
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="styles.css?v=6">
 </head>
 
 <body>
+
+  <!-- Custom Magnetic Cursor -->
+  <div class="custom-cursor" id="customCursor"></div>
 
   <div class="container">
     <header class="navbar">
@@ -71,10 +74,10 @@
       <div class="grid strategy-grid" style="justify-content: center;">
         <div class="col-12 col-md-10 strategy-content-col"
           style="display: flex; flex-direction: column; align-items: center; text-align: center; margin: 0 auto;">
-          <h2 class="text-xl serif" style="margin-bottom: var(--space-md); text-align: center; width: 100%;">¿Cómo
-            podemos proteger su marca?</h2>
+          <h2 class="text-xl serif" style="margin-bottom: var(--space-md); text-align: center; width: 100%;">Cómo
+            protegemos su marca</h2>
 
-          <p class="sans text-base mb-lg" style="opacity: 0.8; line-height: 1.6; max-width: 800px;">
+          <p class="text-scrub sans text-base mb-lg" style="opacity: 0.8; line-height: 1.6; max-width: 800px;">
             A lo largo de más de 80 años de trayectoria, hemos perfeccionado una metodología legal orientada a
             resultados comerciales. Protegemos activos intangibles con una visión de negocios a largo plazo, brindando
             asesoramiento estratégico idóneo para que cada empresa alcance su máximo potencial.
@@ -100,17 +103,14 @@
     </section>
 
 
-
-
-
     <!-- Team Section -->
     <section class="team-section container" style="padding-top: 0;">
-      <div class="section-header">
+      <div class="section-header" style="margin-bottom: var(--space-sm);">
         <span class="section-label uppercase text-sm">Liderazgo</span>
         <a href="equipo.html" class="uppercase text-xs link-border">Ver Todo el Equipo</a>
       </div>
 
-      <div class="grid" style="row-gap: var(--space-xl);">
+      <div class="grid" style="row-gap: var(--space-md);">
         <!-- Partner 1 -->
         <div class="col-12 col-md-3">
           <div class="team-card">
@@ -164,7 +164,7 @@
         <a href="practica.html" class="uppercase text-xs link-border">Ver Práctica Completa</a>
       </div>
 
-      <div class="practice-list-section accordion-container">
+      <div class="practice-list-section accordion-container" style="margin-top: var(--space-md);">
         <!-- 1. MARCAS -->
         <div class="list-item accordion-item">
           <button class="accordion-trigger">
@@ -475,6 +475,37 @@
       stagger: 0.05,
       ease: "power2.out"
     });
+
+    // 8. Text Scrubbing Effect
+    gsap.to(".text-scrub", {
+      backgroundPosition: "0% 0%",
+      ease: "none",
+      scrollTrigger: {
+        trigger: ".text-scrub",
+        start: "top 85%",
+        end: "bottom 60%",
+        scrub: 1
+      }
+    });
+
+    // 7. Custom Cursor Logic
+    const cursor = document.getElementById('customCursor');
+    const interactables = document.querySelectorAll('a, button, .team-card, .accordion-trigger');
+
+    // Only activate cursor if not on a touch device
+    if (window.matchMedia("(pointer: fine)").matches) {
+      document.addEventListener('mousemove', (e) => {
+        cursor.style.left = e.clientX + 'px';
+        cursor.style.top = e.clientY + 'px';
+      });
+
+      interactables.forEach(el => {
+        el.addEventListener('mouseenter', () => cursor.classList.add('hover'));
+        el.addEventListener('mouseleave', () => cursor.classList.remove('hover'));
+      });
+    } else {
+      cursor.style.display = 'none'; // Hide entirely on mobile
+    }
   </script>
 </body>
 

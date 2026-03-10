@@ -47,11 +47,60 @@ body {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     overflow-x: hidden;
+    cursor: none;
+    /* Hide default cursor for custom one */
+}
+
+/* Analog Film Grain */
+body::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+    opacity: 0.04;
+    pointer-events: none;
+    z-index: 9999;
 }
 
 a {
     color: inherit;
     text-decoration: none;
+    cursor: none;
+    /* Hide for custom cursor */
+}
+
+button,
+.team-card,
+.accordion-trigger {
+    cursor: none;
+    /* Hide for custom cursor */
+}
+
+/* Custom Magnetic Cursor */
+.custom-cursor {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 14px;
+    height: 14px;
+    background-color: var(--text-color);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 10000;
+    transform: translate(-50%, -50%);
+    transition: width 0.3s cubic-bezier(0.19, 1, 0.22, 1),
+        height 0.3s cubic-bezier(0.19, 1, 0.22, 1),
+        background-color 0.3s;
+    mix-blend-mode: difference;
+}
+
+.custom-cursor.hover {
+    width: 70px;
+    height: 70px;
+    background-color: #fff;
 }
 
 .serif {
@@ -129,6 +178,14 @@ a {
     max-width: 1600px;
     margin: 0 auto;
     padding: 0 var(--space-md);
+    /* 32px on desktop */
+}
+
+@media (max-width: 768px) {
+    .container {
+        padding: 0 2.5rem;
+        /* 40px guaranteed on mobile */
+    }
 }
 
 .grid {
@@ -168,6 +225,7 @@ a {
 }
 
 /* Navigation */
+/* Navigation - Glassmorphism */
 .navbar {
     display: flex;
     justify-content: space-between;
@@ -178,11 +236,12 @@ a {
     left: 0;
     width: 100%;
     z-index: 100;
-    background: transparent;
+    background: rgba(250, 249, 246, 0.02);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
     mix-blend-mode: difference;
-    /* Elegantly adapts to background */
     color: #fff;
-    /* Due to difference blend mode, this will appear black on light background */
+    border-bottom: 1px solid rgba(255, 255, 255, 0.02);
 }
 
 .nav-brand {
@@ -293,6 +352,7 @@ a {
     align-items: center;
     position: relative;
     text-align: center;
+    padding: 0 clamp(2rem, 6vw, var(--space-md));
 }
 
 .hero-content {
@@ -309,6 +369,8 @@ a {
     color: var(--text-color);
     line-height: 1.1;
     letter-spacing: -0.01em;
+    font-variant-ligatures: discretionary-ligatures;
+    font-feature-settings: "dlig" 1, "liga" 1;
 }
 
 /* Bottom Accolades */
@@ -321,6 +383,7 @@ a {
     flex-direction: column;
     align-items: center;
     gap: var(--space-sm);
+    padding: 0 clamp(2rem, 6vw, var(--space-md));
 }
 
 .hero-bottom-title {
@@ -381,7 +444,19 @@ a {
 
 /* Strategy & Stats Section */
 .strategy-section {
-    padding: var(--space-3xl) 0 var(--space-xl);
+    padding: var(--space-3xl) clamp(1.5rem, 5vw, var(--space-md)) var(--space-xl);
+}
+
+.text-scrub {
+    background: linear-gradient(to right, var(--text-color) 50%, rgba(26, 21, 20, 0.2) 50%);
+    background-size: 200% 100%;
+    background-position: 100% 0;
+    /* Starts faded */
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    opacity: 1 !important;
+    /* Override inline opacity */
 }
 
 .strategy-title-col {
@@ -451,14 +526,16 @@ a {
 
 /* List Items (Practice Areas) */
 .practice-section {
-    padding-bottom: var(--space-3xl);
+    padding-bottom: var(--space-xl);
+    /* Reduced from 3xl to pull footer up */
 }
 
 .section-header {
     display: flex;
     justify-content: space-between;
     align-items: flex-end;
-    margin-bottom: var(--space-2xl);
+    margin-bottom: var(--space-md);
+    /* Greatly reduced from 2xl */
     padding-bottom: var(--space-sm);
     border-bottom: 1px solid var(--border-color);
 }
@@ -528,6 +605,15 @@ a {
     color: rgba(26, 21, 20, 0.7);
     line-height: 1.6;
     max-width: 800px;
+    transform: translateY(15px);
+    opacity: 0;
+    transition: transform 0.6s cubic-bezier(0.19, 1, 0.22, 1), opacity 0.5s ease;
+}
+
+.accordion-item.active .accordion-content p {
+    transform: translateY(0);
+    opacity: 1;
+    transition-delay: 0.1s;
 }
 
 /* Team Section */
@@ -553,12 +639,11 @@ a {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    transition: transform 0.6s cubic-bezier(0.19, 1, 0.22, 1);
+    transition: transform 0.8s cubic-bezier(0.19, 1, 0.22, 1);
 }
 
 .team-card:hover .team-image {
     transform: scale(1.05);
-    /* Subtle zoom */
 }
 
 .team-name {
@@ -569,6 +654,23 @@ a {
 .team-role {
     margin-top: 0.25rem;
     letter-spacing: 0.05em;
+    display: flex;
+    align-items: center;
+    transition: transform 0.4s cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+.team-card:hover .team-role {
+    transform: translateX(10px);
+}
+
+.team-card:hover .team-role::before {
+    content: "";
+    display: inline-block;
+    width: 15px;
+    height: 1px;
+    background-color: var(--text-color);
+    margin-right: 8px;
+    opacity: 0.5;
 }
 
 /* Footer */
