@@ -225,7 +225,6 @@ button,
 }
 
 /* Navigation */
-/* Navigation - Glassmorphism */
 .navbar {
     display: flex;
     justify-content: space-between;
@@ -236,12 +235,9 @@ button,
     left: 0;
     width: 100%;
     z-index: 100;
-    background: rgba(250, 249, 246, 0.02);
-    backdrop-filter: blur(4px);
-    -webkit-backdrop-filter: blur(4px);
+    background: transparent;
     mix-blend-mode: difference;
     color: #fff;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.02);
 }
 
 .nav-brand {
